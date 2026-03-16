@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>S&P500보다 3배 버는 ETF TOP5 | @donbokee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg-deep:#111118;--bg-card:#1e1e2c;--bg-card-hover:#282838;--bg-elevated:#2c2c3e;
+  --pink:#e86c9e;--pink-dark:#d4507f;--pink-dim:rgba(232,108,158,0.15);--pink-glow:rgba(232,108,158,0.25);
+  --white:#ffffff;--gray-100:#f2f2f8;--gray-200:#d4d4e0;--gray-300:#aaaabc;--gray-400:#9a9ab0;--gray-500:#7e7e96;
+  --green:#34d399;--green-dim:rgba(52,211,153,0.15);--red:#ef4444;--red-dim:rgba(239,68,68,0.15);
+  --orange:#f59e0b;--orange-dim:rgba(245,158,11,0.15);--blue:#60a5fa;--blue-dim:rgba(96,165,250,0.15);
+  --purple:#a884f6;--purple-dim:rgba(168,132,246,0.15);
+  --border:#333345;--border-light:#3d3d50;
+  --shadow:0 4px 20px rgba(0,0,0,0.3);--shadow-pink:0 4px 16px rgba(232,108,158,0.25);
+  --radius:20px;--radius-sm:14px;
+}
+body{font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg-deep);color:var(--gray-100);line-height:1.6;-webkit-font-smoothing:antialiased;}
+.container{max-width:480px;margin:0 auto;padding:0 20px;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(17,17,24,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 20px;}
+.nav-inner{max-width:480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.nav-logo{font-size:15px;font-weight:800;color:var(--pink);display:flex;align-items:center;gap:8px;}
+.nav-logo img{width:36px;height:36px;border-radius:50%;object-fit:contain;}
+
+/* HERO */
+.hero{text-align:center;padding:44px 0 24px;}
+.hero-character{width:110px;height:110px;margin:0 auto 18px;}
+.hero-character img{width:100%;height:100%;object-fit:contain;}
+.hero h1{font-size:36px;font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1.3;}
+.hero-hl{color:var(--pink);}
+.hero-sub{font-size:16px;color:var(--gray-300);margin-top:12px;font-weight:500;}
+
+/* CTA */
+.cta-banner{text-align:center;padding:24px 0;}
+.cta-text{font-size:14px;color:var(--gray-400);font-weight:500;margin-bottom:10px;}
+.cta-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--pink);padding:11px 22px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;border:1.5px solid var(--pink);cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.cta-btn:hover{background:var(--pink);color:var(--white);box-shadow:var(--shadow-pink);}
+.cta-btn:active{transform:scale(0.97);}
+.cta-btn img{width:28px;height:28px;border-radius:50%;object-fit:contain;}
+
+/* TABS - 제목 바로 밑 */
+.main-tabs{display:flex;gap:8px;margin-bottom:28px;padding:0;}
+.main-tab{
+  flex:1;padding:12px 0;border-radius:14px;
+  font-size:15px;font-weight:700;text-align:center;
+  background:var(--bg-card);color:var(--gray-400);
+  border:1.5px solid var(--border);cursor:pointer;
+  font-family:inherit;transition:all 0.2s;
+}
+.main-tab.active{background:var(--pink);color:var(--white);border-color:var(--pink);box-shadow:var(--shadow-pink);}
+
+.divider{height:8px;background:var(--bg-elevated);margin:12px -20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+
+/* SECTION */
+.section{padding:8px 0 24px;}
+.section-title{font-size:26px;font-weight:900;color:var(--white);letter-spacing:-0.5px;margin-bottom:6px;}
+.section-sub{font-size:15px;color:var(--gray-400);margin-bottom:24px;font-weight:500;}
+
+.tab-content{display:none;}.tab-content.active{display:block;}
+
+/* ===== BASELINE ===== */
+.baseline-card{background:var(--bg-card);border:1.5px dashed var(--gray-500);border-radius:var(--radius);padding:22px;margin-bottom:20px;text-align:center;}
+.baseline-label{font-size:13px;color:var(--gray-400);font-weight:600;margin-bottom:8px;}
+.baseline-name{font-size:20px;font-weight:800;color:var(--gray-300);margin-bottom:14px;}
+.baseline-stats{display:flex;justify-content:center;gap:28px;}
+.baseline-stat .val{font-size:20px;font-weight:800;color:var(--gray-300);}
+.baseline-stat .label{font-size:12px;color:var(--gray-500);margin-top:3px;font-weight:500;}
+
+/* ===== ETF CARDS - 전체 펼침 ===== */
+.etf-list{display:flex;flex-direction:column;gap:16px;padding-bottom:8px;}
+.etf-card{background:var(--bg-card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:all 0.25s;}
+
+.etf-card-header{padding:22px 22px 12px;display:flex;align-items:flex-start;gap:14px;}
+.etf-rank{width:38px;height:38px;border-radius:12px;background:var(--pink-dim);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--pink);flex-shrink:0;margin-top:2px;}
+.etf-card-left{flex:1;min-width:0;}
+.etf-name{font-size:20px;font-weight:800;color:var(--white);line-height:1.3;}
+.etf-index{font-size:14px;color:var(--gray-300);margin-top:4px;font-weight:500;}
+.etf-card-right{text-align:right;flex-shrink:0;}
+.etf-return{font-size:28px;font-weight:900;color:var(--pink);letter-spacing:-0.5px;}
+.etf-return-label{font-size:13px;color:var(--gray-400);font-weight:500;margin-top:3px;}
+
+.etf-card-tags{display:flex;gap:7px;padding:4px 22px 14px 74px;flex-wrap:wrap;}
+.etf-tag{font-size:13px;padding:6px 13px;border-radius:8px;font-weight:600;}
+.tag-blue{background:var(--blue-dim);color:var(--blue);}.tag-purple{background:var(--purple-dim);color:var(--purple);}
+.tag-green{background:var(--green-dim);color:var(--green);}.tag-orange{background:var(--orange-dim);color:var(--orange);}
+.tag-red{background:var(--red-dim);color:var(--red);}
+
+/* 이게 뭔데 섹션 */
+.etf-desc{padding:0 22px 16px;}
+.etf-desc-title{font-size:14px;font-weight:700;color:var(--gray-200);margin-bottom:8px;}
+.etf-desc-text{font-size:14px;color:var(--gray-300);line-height:1.7;font-weight:400;}
+
+/* 상세 데이터 그리드 */
+.etf-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 22px 14px;}
+.etf-detail-stat{background:var(--bg-elevated);border-radius:var(--radius-sm);padding:16px;}
+.etf-detail-stat-label{font-size:12px;color:var(--gray-500);font-weight:500;margin-bottom:5px;}
+.etf-detail-stat-value{font-size:18px;font-weight:800;}
+.positive{color:var(--green);}.negative{color:var(--red);}.neutral{color:var(--gray-200);}.warn{color:var(--orange);}
+
+/* 대표 종목 */
+.etf-holdings{padding:0 22px 14px;font-size:14px;color:var(--gray-300);line-height:1.6;}
+.etf-holdings strong{color:var(--gray-100);font-weight:700;}
+
+/* vs S&P */
+.vs-sp{margin:0 22px 22px;background:var(--pink-dim);border-radius:12px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.vs-sp-label{font-size:13px;color:var(--gray-400);font-weight:500;}
+.vs-sp-value{font-size:15px;font-weight:800;color:var(--pink);}
+
+/* ===== STORYLINE ===== */
+.storyline{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 22px;margin-top:24px;}
+.storyline-title{font-size:18px;font-weight:800;color:var(--white);text-align:center;margin-bottom:18px;}
+.story-flow{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.story-step{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:600;color:var(--gray-200);padding:12px 16px;background:var(--bg-elevated);border-radius:12px;}
+.etf-tag-inline{color:var(--pink);font-weight:800;}
+.story-arrow{font-size:14px;color:var(--gray-500);}
+
+/* ===== RISK TAB ===== */
+.risk-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px;}
+.risk-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.risk-name{font-size:18px;font-weight:800;color:var(--white);}
+.risk-level{margin-left:auto;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;}
+.risk-level.high{background:var(--red-dim);color:var(--red);}
+.risk-level.mid{background:var(--orange-dim);color:var(--orange);}
+.risk-level.very-high{background:rgba(255,50,50,0.2);color:#ff4444;}
+.risk-items{display:flex;flex-direction:column;gap:12px;}
+.risk-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--gray-200);line-height:1.7;font-weight:400;}
+.risk-item::before{content:'⚠️';font-size:13px;flex-shrink:0;margin-top:2px;}
+
+/* ===== CALC TAB ===== */
+.calc-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 22px;margin-bottom:16px;}
+.calc-tabs{display:flex;gap:8px;margin-bottom:20px;}
+.calc-tab{flex:1;padding:11px 0;border-radius:12px;font-size:15px;font-weight:700;text-align:center;background:var(--bg-elevated);color:var(--gray-400);border:1px solid var(--border);cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.calc-tab.active{background:var(--white);color:var(--bg-deep);border-color:var(--white);}
+.calc-label{font-size:16px;font-weight:700;color:var(--gray-100);margin-bottom:10px;}
+.calc-input-wrap{display:flex;align-items:center;background:var(--bg-elevated);border-radius:var(--radius-sm);padding:0 16px;margin-bottom:10px;border:1.5px solid var(--border);transition:border-color 0.2s;}
+.calc-input-wrap:focus-within{border-color:var(--pink);}
+.calc-input{flex:1;background:none;border:none;color:var(--white);font-family:inherit;font-size:22px;font-weight:800;padding:14px 0;outline:none;width:100%;}
+.calc-input::placeholder{color:var(--gray-500);font-weight:400;font-size:17px;}
+.calc-unit{font-size:16px;color:var(--gray-300);font-weight:600;}
+.calc-presets{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px;}
+.calc-preset{padding:9px 18px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;color:var(--gray-300);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.calc-preset:hover,.calc-preset.active{border-color:var(--pink);color:var(--pink);background:var(--pink-dim);}
+.calc-btn{width:100%;padding:16px;background:var(--pink);border:none;border-radius:var(--radius-sm);color:var(--white);font-family:inherit;font-size:17px;font-weight:800;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-pink);}
+.calc-btn:hover{background:var(--pink-dark);}.calc-btn:active{transform:scale(0.98);}
+.calc-results{display:none;margin-top:20px;}.calc-results.show{display:block;}
+.result-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px 22px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.result-card.sp500{border-style:dashed;opacity:0.6;}
+.result-left{display:flex;align-items:center;gap:12px;}
+.result-rank{width:30px;height:30px;background:var(--pink-dim);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--pink);flex-shrink:0;}
+.result-card.sp500 .result-rank{background:var(--bg-elevated);color:var(--gray-500);}
+.result-name{font-size:16px;font-weight:700;color:var(--white);}
+.result-right{text-align:right;}
+.result-amount{font-size:18px;font-weight:900;color:var(--pink);}
+.result-card.sp500 .result-amount{color:var(--gray-400);}
+.result-profit{font-size:13px;color:var(--green);margin-top:3px;font-weight:600;}
+.result-card.sp500 .result-profit{color:var(--gray-500);}
+.result-note{text-align:center;font-size:12px;color:var(--gray-500);margin-top:16px;line-height:1.7;font-weight:500;}
+
+/* FOOTER */
+.footer{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:24px 0 40px;font-size:12px;color:var(--gray-500);line-height:1.7;}
+.footer strong{color:var(--gray-300);}
+.footer-date{margin-top:8px;font-size:11px;color:var(--gray-500);}
+.calc-mode{display:none;}.calc-mode.active{display:block;}
+.calc-warn{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#f5c862;line-height:1.6;font-weight:500;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><img src="img/heart.png" alt="">donbokee</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-character"><img src="img/channel.png" alt="donbokee"></div>
+    <h1>S&P500보다 <span class="hero-hl">3배</span> 버는<br><span class="hero-hl">ETF TOP5</span></h1>
+    <div class="hero-sub">제대로 알아야 제대로 투자할 수 있어</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <p class="cta-text">제대로 투자하고 싶다면</p>
+    <a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn">
+      <img src="img/hi.png" alt=""> @donbokee 팔로우
+    </a>
+  </div>
+
+  <!-- TABS - 제목 바로 밑 -->
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchTab('compare',this)">📊 비교표</button>
+    <button class="main-tab" onclick="switchTab('risk',this)">⚠️ 리스크</button>
+    <button class="main-tab" onclick="switchTab('calc',this)">💰 계산기</button>
+  </div>
+
+  <!-- ===== 비교표 탭 ===== -->
+  <div id="tab-compare" class="tab-content active">
+    <div class="section">
+      <!-- S&P500 기준선 -->
+      <div class="baseline-card">
+        <div class="baseline-label">📌 비교 기준</div>
+        <div class="baseline-name">S&P500 (VOO)</div>
+        <div class="baseline-stats">
+          <div class="baseline-stat"><div class="val">+17.8%</div><div class="label">2025년</div></div>
+          <div class="baseline-stat"><div class="val">~14.6%</div><div class="label">10년 연평균</div></div>
+          <div class="baseline-stat"><div class="val">0.03%</div><div class="label">보수</div></div>
+        </div>
+      </div>
+
+      <div class="etf-list" id="etfList"></div>
+
+      <!-- Storyline -->
+      <div class="storyline">
+        <div class="storyline-title">왜 이 5개일까?</div>
+        <div class="story-flow">
+          <div class="story-step">🤖 AI 성장 → 반도체 필요 <span class="etf-tag-inline">SMH</span></div>
+          <div class="story-arrow">↓</div>
+          <div class="story-step">⚡ 전력 수요 폭증 <span class="etf-tag-inline">GRID</span></div>
+          <div class="story-arrow">↓</div>
+          <div class="story-step">📈 강한 기업은 더 오르고 <span class="etf-tag-inline">SPMO</span></div>
+          <div class="story-arrow">↓</div>
+          <div class="story-step">💻 빅테크가 주도 <span class="etf-tag-inline">QQQ</span></div>
+          <div class="story-arrow">↓</div>
+          <div class="story-step">🚀 다음 산업은 우주 <span class="etf-tag-inline">ARKX</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cta-banner"><p class="cta-text">함께 공부하고 부자되고 싶다면</p><a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn"><img src="img/hi.png" alt=""> @donbokee 팔로우</a></div>
+  </div>
+
+  <!-- ===== 리스크 탭 ===== -->
+  <div id="tab-risk" class="tab-content">
+    <div class="section">
+      <div class="section-title">이건 알고 사야 해</div>
+      <div class="section-sub">수익률만 보면 안 돼. 리스크도 꼭 확인해봐</div>
+
+      <div class="risk-card"><div class="risk-top"><span class="risk-name">SMH</span><span class="risk-level high">변동성 높음</span></div><div class="risk-items">
+        <div class="risk-item">반도체는 경기 사이클 영향을 크게 받아. 2022년에 -33% 빠졌고 회복에 1년 넘게 걸렸어</div>
+        <div class="risk-item">엔비디아 비중이 약 20%라서 한 종목에 크게 의존하고 있어</div>
+        <div class="risk-item">AI 투자가 둔화되면 직격탄을 맞을 수 있어</div>
+      </div></div>
+
+      <div class="risk-card"><div class="risk-top"><span class="risk-name">SPMO</span><span class="risk-level mid">전략 리스크</span></div><div class="risk-items">
+        <div class="risk-item">"최근에 잘 나간 종목"을 쫓는 전략이라 이미 고점에서 사게 될 수 있어</div>
+        <div class="risk-item">시장이 하락 전환되면 비싸게 산 종목들이라 낙폭이 클 수 있어</div>
+        <div class="risk-item">반기마다 종목이 확 바뀌어서 내가 뭘 들고 있는지 파악이 어려워</div>
+      </div></div>
+
+      <div class="risk-card"><div class="risk-top"><span class="risk-name">QQQ</span><span class="risk-level mid">쏠림 리스크</span></div><div class="risk-items">
+        <div class="risk-item">상위 10개 종목이 전체의 약 50%를 차지할 정도로 쏠림이 심해</div>
+        <div class="risk-item">기술주 규제나 금리 인상 같은 이슈에 민감하게 반응해</div>
+        <div class="risk-item">가장 대중적인 ETF라서 과열 구간에서 진입하기 쉬워</div>
+      </div></div>
+
+      <div class="risk-card"><div class="risk-top"><span class="risk-name">GRID</span><span class="risk-level mid">테마 리스크</span></div><div class="risk-items">
+        <div class="risk-item">해외 기업 비중이 높아서 환율 변동 리스크가 있어</div>
+        <div class="risk-item">보수가 0.56%로 다른 ETF보다 높은 편이야</div>
+        <div class="risk-item">AI 전력 수요 기대감이 이미 주가에 반영됐을 가능성이 있어</div>
+      </div></div>
+
+      <div class="risk-card"><div class="risk-top"><span class="risk-name">ARKX</span><span class="risk-level very-high">매우 높음</span></div><div class="risk-items">
+        <div class="risk-item">출시 4년차라 장기적으로 성과가 검증되지 않았어</div>
+        <div class="risk-item">캐시 우드가 직접 운용하는 액티브 펀드라 매니저 리스크가 있어</div>
+        <div class="risk-item">보수 0.75%로 5개 ETF 중 가장 비싸</div>
+        <div class="risk-item">2022년에 -34% 빠져서 S&P500보다 더 크게 하락했어</div>
+      </div></div>
+    </div>
+    <div class="cta-banner"><p class="cta-text">리스크까지 알고 투자하는 사람이 되자</p><a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn"><img src="img/hi.png" alt=""> @donbokee 팔로우</a></div>
+  </div>
+
+  <!-- ===== 계산기 탭 ===== -->
+  <div id="tab-calc" class="tab-content">
+    <div class="section">
+      <div class="section-title">수익 비교 계산기</div>
+      <div class="section-sub">같은 돈 넣었을 때 얼마나 차이날까? 직접 넣어보고 확인해봐</div>
+
+      <div class="calc-warn">⚠️ 수익률은 대략적인 과거 연평균 데이터이며, 실제 수익률은 시장 상황에 따라 달라질 수 있어요.</div>
+
+      <div class="calc-section">
+        <div class="calc-tabs">
+          <button class="calc-tab active" onclick="switchCalcMode('lump',this)">💰 목돈 투자</button>
+          <button class="calc-tab" onclick="switchCalcMode('monthly',this)">📅 매달 적립</button>
+        </div>
+        <div id="calc-lump" class="calc-mode active">
+          <div class="calc-label">투자 금액</div>
+          <div class="calc-input-wrap"><input type="number" class="calc-input" id="lumpAmount" placeholder="1000" inputmode="numeric"><span class="calc-unit">만원</span></div>
+          <div class="calc-presets" id="lumpPresets"><button class="calc-preset" data-val="500">500만원</button><button class="calc-preset" data-val="1000">1천만원</button><button class="calc-preset" data-val="3000">3천만원</button><button class="calc-preset" data-val="5000">5천만원</button></div>
+        </div>
+        <div id="calc-monthly" class="calc-mode">
+          <div class="calc-label">매달 적립 금액</div>
+          <div class="calc-input-wrap"><input type="number" class="calc-input" id="monthlyAmount" placeholder="50" inputmode="numeric"><span class="calc-unit">만원</span></div>
+          <div class="calc-presets" id="monthlyPresets"><button class="calc-preset" data-val="10">10만원</button><button class="calc-preset" data-val="30">30만원</button><button class="calc-preset" data-val="50">50만원</button><button class="calc-preset" data-val="100">100만원</button></div>
+        </div>
+        <div class="calc-label">투자 기간</div>
+        <div class="calc-input-wrap"><input type="number" class="calc-input" id="periodYears" placeholder="10" inputmode="numeric"><span class="calc-unit">년</span></div>
+        <div class="calc-presets" id="periodPresets"><button class="calc-preset" data-val="5">5년</button><button class="calc-preset" data-val="10">10년</button><button class="calc-preset" data-val="20">20년</button><button class="calc-preset" data-val="30">30년</button></div>
+      </div>
+      <button class="calc-btn" onclick="calculate()">수익 비교하기 →</button>
+      <div class="calc-results" id="calcResults"></div>
+    </div>
+    <div class="cta-banner"><p class="cta-text">앞으로 유용한 재테크 정보 받고 싶다면</p><a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn"><img src="img/hi.png" alt=""> @donbokee 팔로우</a></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>⚠️ 투자 유의사항</strong><br><br>
+    본 자료는 과거 연평균 수익률 기준 시뮬레이션이며, 투자를 권유하거나 추천하는 것이 아닙니다. 실제 수익률은 시장 상황에 따라 달라질 수 있으며, 모든 투자 판단과 책임은 본인에게 있습니다.
+    <div class="footer-date">※ 2025년 수익률 기준 · 수익률 데이터: 대략적인 과거 연평균 기준</div>
+  </div>
+</div>
+
+<script>
+const etfs=[
+  {id:'smh',name:'SMH',index:'반도체 핵심기업 25개 집중',rate:32,
+   tags:[{t:'반도체',c:'tag-blue'},{t:'AI 핵심',c:'tag-purple'},{t:'고성장',c:'tag-green'}],
+   desc:'AI 시대의 핵심 인프라인 반도체. 엔비디아, TSMC, ASML 등 전 세계 반도체 산업을 이끄는 25개 기업에 집중 투자하는 ETF야. AI 칩 수요가 폭발하면서 10년간 S&P500의 2배 넘는 수익을 기록했어. 대신 반도체 업황이 꺾이면 낙폭도 크니까 각오는 해야 해.',
+   stats:{y2025:'+49.2%',avg:'~32%',avgL:'10년 연평균',worst:'-33.5%',fee:'0.35%'},
+   holdings:'엔비디아, TSMC, ASML, 브로드컴, 퀄컴',vsSp:'약 2.2배 수익 (10년)'},
+  {id:'spmo',name:'SPMO',index:'S&P500 중 잘 나가는 100개만 자동 선별',rate:17,
+   tags:[{t:'모멘텀',c:'tag-purple'},{t:'자동선별',c:'tag-blue'},{t:'저보수',c:'tag-green'}],
+   desc:'S&P500에 포함된 500개 기업 중에서 최근 가장 많이 오른 100개만 골라서 자동으로 담아주는 ETF야. 쉽게 말해 "요즘 제일 잘 나가는 애들만 모아놓은 것". 반기마다 종목이 바뀌어서 시장 흐름을 자동으로 따라가. 보수도 0.13%로 매우 저렴해.',
+   stats:{y2025:'+26.6%',avg:'~17%',avgL:'설정이후 연평균',worst:'-10.5%',fee:'0.13%'},
+   holdings:'메타, 테슬라, 마이크로소프트 (반기마다 변동)',vsSp:'약 1.5배 수익 (설정이후)'},
+  {id:'qqq',name:'QQQ',index:'미국 빅테크 100개 집중',rate:20,
+   tags:[{t:'빅테크',c:'tag-blue'},{t:'대중적',c:'tag-green'},{t:'성장형',c:'tag-purple'}],
+   desc:'애플, 엔비디아, 메타, 아마존 같은 미국 빅테크 기업 100개에 투자하는 ETF. S&P500 다음으로 가장 많이 알려진 ETF이고, "미국 기술 패권에 투자하는 것"이라 보면 돼. AI·클라우드·반도체 중심이라 장기 성장성이 높지만, 기술주 쏠림이 있어.',
+   stats:{y2025:'+25%대',avg:'~20%',avgL:'10년 연평균',worst:'-33%',fee:'0.20%'},
+   holdings:'애플, 엔비디아, 메타, 마이크로소프트, 아마존',vsSp:'약 1.4배 수익 (10년)'},
+  {id:'grid',name:'GRID',index:'AI 전력 인프라 기업 집중',rate:18,
+   tags:[{t:'전력인프라',c:'tag-orange'},{t:'AI 수혜',c:'tag-purple'},{t:'글로벌',c:'tag-blue'}],
+   desc:'AI가 커질수록 데이터센터가 늘어나고, 데이터센터는 엄청난 전력을 먹어. 이 ETF는 바로 그 전력 인프라를 만드는 기업들에 투자해. 전기가 없으면 AI도 없으니까, AI 시대의 숨겨진 수혜주라고 볼 수 있어. 이튼, 슈나이더 같은 글로벌 전력 장비 기업이 주요 종목이야.',
+   stats:{y2025:'+29.7%',avg:'~18%',avgL:'10년 연평균',worst:'변동 있음',fee:'0.56%'},
+   holdings:'이튼, 슈나이더 일렉트릭, 허벨',vsSp:'약 1.2배 수익 (10년)'},
+  {id:'arkx',name:'ARKX',index:'우주·방위 산업 집중',rate:20,
+   tags:[{t:'우주·방위',c:'tag-orange'},{t:'액티브',c:'tag-red'},{t:'신산업',c:'tag-purple'}],
+   desc:'우주 산업과 방위 기술에 베팅하는 ETF. 로켓랩, 크라토스, 팔란티어 같은 기업이 포함돼 있어. 캐시 우드가 직접 종목을 골라서 운용하는 액티브 펀드야. 2025년에 +48% 수익을 냈지만, 출시 4년차라 장기 검증이 안 됐어. "미래에 크게 터질 수도 있지만 리스크도 큰" 베팅형 ETF야.',
+   stats:{y2025:'+48.5%',avg:'출시 4년차',avgL:'장기 데이터',worst:'-34.3%',fee:'0.75%'},
+   holdings:'로켓랩, 크라토스, 팔란티어',vsSp:'약 2.7배 수익 (2025년)'}
+];
+
+function renderList(){
+  document.getElementById('etfList').innerHTML=etfs.map((e,i)=>`
+    <div class="etf-card">
+      <div class="etf-card-header">
+        <div class="etf-rank">${i+1}</div>
+        <div class="etf-card-left"><div class="etf-name">${e.name}</div><div class="etf-index">${e.index}</div></div>
+        <div class="etf-card-right"><div class="etf-return">${e.stats.y2025}</div><div class="etf-return-label">2025년</div></div>
+      </div>
+      <div class="etf-card-tags">${e.tags.map(t=>`<span class="etf-tag ${t.c}">${t.t}</span>`).join('')}</div>
+      <div class="etf-desc">
+        <div class="etf-desc-title">💡 이게 뭔데?</div>
+        <div class="etf-desc-text">${e.desc}</div>
+      </div>
+      <div class="etf-detail-grid">
+        <div class="etf-detail-stat"><div class="etf-detail-stat-label">2025년 수익률</div><div class="etf-detail-stat-value positive">${e.stats.y2025}</div></div>
+        <div class="etf-detail-stat"><div class="etf-detail-stat-label">${e.stats.avgL}</div><div class="etf-detail-stat-value ${e.stats.avg.includes('출시')?'warn':'positive'}">${e.stats.avg}</div></div>
+        <div class="etf-detail-stat"><div class="etf-detail-stat-label">최악의 해</div><div class="etf-detail-stat-value negative">${e.stats.worst}</div></div>
+        <div class="etf-detail-stat"><div class="etf-detail-stat-label">총보수</div><div class="etf-detail-stat-value neutral">${e.stats.fee}</div></div>
+      </div>
+      <div class="etf-holdings"><strong>📌 대표 종목:</strong> ${e.holdings}</div>
+    </div>`).join('');
+}
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+let calcMode='lump';
+function switchCalcMode(mode,btn){
+  calcMode=mode;
+  document.querySelectorAll('.calc-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.calc-mode').forEach(m=>m.classList.remove('active'));
+  document.getElementById('calc-'+mode).classList.add('active');
+  document.getElementById('calcResults').classList.remove('show');
+}
+document.querySelectorAll('.calc-presets').forEach(g=>{
+  g.addEventListener('click',e=>{
+    const b=e.target.closest('.calc-preset');if(!b)return;
+    const v=b.dataset.val;
+    if(g.id==='lumpPresets')document.getElementById('lumpAmount').value=v;
+    else if(g.id==='monthlyPresets')document.getElementById('monthlyAmount').value=v;
+    else if(g.id==='periodPresets')document.getElementById('periodYears').value=v;
+    g.querySelectorAll('.calc-preset').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  });
+});
+const calcEtfs=[{n:'SMH',r:0.32},{n:'QQQ',r:0.20},{n:'ARKX',r:0.20},{n:'GRID',r:0.18},{n:'SPMO',r:0.17},{n:'S&P500',r:0.146}];
+function calculate(){
+  const y=parseInt(document.getElementById('periodYears').value)||10;let results=[];
+  if(calcMode==='lump'){
+    const a=parseInt(document.getElementById('lumpAmount').value)||1000;
+    calcEtfs.forEach(e=>{const f=a*Math.pow(1+e.r,y);results.push({name:e.n,final:Math.round(f),profit:Math.round(f-a),input:a});});
+  }else{
+    const mo=parseInt(document.getElementById('monthlyAmount').value)||50;
+    calcEtfs.forEach(e=>{const mr=Math.pow(1+e.r,1/12)-1;const m=y*12;let t=0;for(let i=0;i<m;i++){t=(t+mo)*(1+mr);}const inv=mo*m;results.push({name:e.n,final:Math.round(t),profit:Math.round(t-inv),input:inv});});
+  }
+  const sp=results.find(r=>r.name==='S&P500');
+  const others=results.filter(r=>r.name!=='S&P500').sort((a,b)=>b.final-a.final);
+  let h='';
+  others.forEach((r,i)=>{h+=`<div class="result-card"><div class="result-left"><div class="result-rank">${i+1}</div><div class="result-name">${r.name}</div></div><div class="result-right"><div class="result-amount">${fmt(r.final*10000)}</div><div class="result-profit">수익 +${fmt(r.profit*10000)}</div></div></div>`;});
+  h+=`<div class="result-card sp500"><div class="result-left"><div class="result-rank">—</div><div class="result-name">S&P500 (기준)</div></div><div class="result-right"><div class="result-amount">${fmt(sp.final*10000)}</div><div class="result-profit">수익 +${fmt(sp.profit*10000)}</div></div></div>`;
+  h+=`<div class="result-note">과거 연평균 수익률 기준 시뮬레이션<br>실제 수익률은 달라질 수 있어요</div>`;
+  const c=document.getElementById('calcResults');c.innerHTML=h;c.classList.add('show');c.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function fmt(n){if(n>=1e8){const u=Math.floor(n/1e8),w=Math.floor((n%1e8)/1e4);return w>0?`${u}억 ${w.toLocaleString()}만원`:`${u}억원`;}if(n>=1e4)return`${Math.floor(n/1e4).toLocaleString()}만원`;return`${Math.floor(n).toLocaleString()}원`;}
+renderList();
+</script>
+</body>
+</html>
