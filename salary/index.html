@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>나의 월급 가계부 | @donbokee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg-deep:#111118;
+  --bg-card:#1e1e2c;
+  --bg-card-hover:#282838;
+  --bg-elevated:#2c2c3e;
+  --pink:#e86c9e;
+  --pink-dark:#d4507f;
+  --pink-dim:rgba(232,108,158,0.15);
+  --pink-glow:rgba(232,108,158,0.25);
+  --white:#ffffff;
+  --gray-100:#f2f2f8;
+  --gray-200:#d4d4e0;
+  --gray-300:#aaaabc;
+  --gray-400:#9a9ab0;
+  --gray-500:#7e7e96;
+  --green:#34d399;
+  --green-dim:rgba(52,211,153,0.15);
+  --yellow:#f1c135;
+  --yellow-dim:rgba(241,193,53,0.15);
+  --border:#333345;
+  --border-light:#3d3d50;
+  --shadow:0 4px 20px rgba(0,0,0,0.3);
+  --shadow-pink:0 4px 16px rgba(232,108,158,0.25);
+  --radius:20px;
+  --radius-sm:14px;
+}
+
+body{
+  font-family:'Paperlogy','Noto Sans KR',-apple-system,sans-serif;
+  background:var(--bg-deep);
+  color:var(--gray-100);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.container{max-width:480px;margin:0 auto;padding:0 20px;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(17,17,24,0.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:12px 20px;
+}
+.nav-inner{max-width:480px;margin:0 auto;display:flex;align-items:center;gap:10px;}
+.nav-logo{font-size:15px;font-weight:800;color:var(--pink);display:flex;align-items:center;gap:8px;}
+.nav-logo img{width:36px;height:36px;border-radius:50%;object-fit:contain;}
+
+/* HERO */
+.hero{text-align:center;padding:40px 0 28px;}
+.hero-character{width:110px;height:110px;margin:0 auto 20px;}
+.hero-character img{width:100%;height:100%;object-fit:contain;}
+.hero-eyebrow{
+  font-size:13px;font-weight:700;
+  color:var(--pink);letter-spacing:0.06em;
+  margin-bottom:12px;
+}
+.hero h1{
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:32px;font-weight:800;
+  color:var(--white);
+  letter-spacing:-0.5px;line-height:1.35;
+}
+.hero-hl{color:var(--pink);}
+.hero-sub{font-size:15px;color:var(--gray-300);margin-top:12px;font-weight:500;line-height:1.6;}
+
+/* CTA */
+.cta-banner{text-align:center;padding:20px 0 4px;}
+.cta-text{font-size:13px;color:var(--gray-400);font-weight:500;margin-bottom:10px;}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;color:var(--pink);
+  padding:11px 22px;border-radius:12px;
+  font-size:14px;font-weight:700;
+  text-decoration:none;border:1.5px solid var(--pink);
+  cursor:pointer;font-family:inherit;transition:all 0.2s;
+}
+.cta-btn:hover{background:var(--pink);color:var(--white);box-shadow:var(--shadow-pink);}
+.cta-btn img{width:24px;height:24px;border-radius:50%;object-fit:contain;}
+
+.section{padding:24px 0 12px;}
+.section-title{
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:24px;font-weight:800;
+  color:var(--white);letter-spacing:-0.5px;margin-bottom:6px;
+}
+.section-sub{font-size:14px;color:var(--gray-400);margin-bottom:24px;font-weight:500;}
+
+/* INPUT SECTION */
+.input-card{
+  background:var(--bg-card);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  padding:22px;
+  margin-bottom:16px;
+}
+.input-label{
+  font-size:12px;font-weight:700;
+  color:var(--pink);letter-spacing:0.06em;
+  margin-bottom:12px;
+}
+.input-row{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg-elevated);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:16px 18px;
+  transition:border-color 0.2s;
+}
+.input-row:focus-within{border-color:var(--pink);}
+.input-row input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--white);font-size:24px;font-weight:800;
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+}
+.input-row input::placeholder{color:var(--gray-500);}
+.input-unit{color:var(--gray-400);font-size:15px;font-weight:600;white-space:nowrap;}
+
+.quick-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+.quick-btn{
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  color:var(--gray-300);
+  font-size:13px;font-weight:600;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  transition:all 0.2s;
+}
+.quick-btn:hover{
+  border-color:var(--pink);
+  color:var(--pink);
+  background:var(--pink-dim);
+}
+
+.calc-btn{
+  width:100%;
+  background:var(--pink);
+  color:var(--white);
+  border:none;
+  border-radius:var(--radius-sm);
+  padding:17px;
+  font-size:16px;font-weight:700;
+  cursor:pointer;
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  transition:all 0.2s;
+  margin-bottom:16px;
+  box-shadow:var(--shadow-pink);
+}
+.calc-btn:hover{
+  background:var(--pink-dark);
+  transform:translateY(-1px);
+}
+
+/* RESULTS */
+.results{display:none;}
+.results.visible{display:block;animation:fadeUp 0.4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* SUMMARY BOX */
+.summary-box{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px 22px;
+  margin-bottom:16px;
+}
+.summary-title{
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:16px;font-weight:700;
+  color:var(--gray-300);margin-bottom:16px;
+}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.summary-item{
+  background:var(--bg-elevated);
+  border-radius:12px;padding:14px;
+}
+.summary-item-label{font-size:11px;color:var(--gray-500);font-weight:600;margin-bottom:5px;}
+.summary-item-value{
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:18px;font-weight:800;
+  color:var(--gray-100);line-height:1.3;
+}
+.summary-item-value.pink{color:var(--pink);}
+.summary-item-value.green{color:var(--green);}
+.summary-item-value.yellow{color:var(--yellow);}
+
+/* CHART */
+.chart-wrap{
+  display:flex;align-items:center;justify-content:center;
+  gap:24px;margin:20px 0;flex-wrap:wrap;
+}
+.donut-container{position:relative;width:130px;height:130px;}
+canvas{width:130px!important;height:130px!important;}
+.donut-center{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+}
+.donut-center-pct{
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:22px;font-weight:800;color:var(--pink);
+}
+.donut-center-label{font-size:10px;color:var(--gray-500);font-weight:600;margin-top:2px;}
+.legend{display:flex;flex-direction:column;gap:8px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--gray-200);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* SECTION LABEL */
+.section-label{
+  font-size:12px;font-weight:700;
+  color:var(--gray-400);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  margin:20px 0 12px 2px;
+}
+
+/* ITEM CARD */
+.item-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:16px 18px;
+  margin-bottom:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:border-color 0.2s;
+}
+.item-card:hover{border-color:var(--border-light);}
+.item-left{display:flex;align-items:center;gap:12px;}
+.item-icon{font-size:18px;width:28px;text-align:center;}
+.item-name{font-size:14px;font-weight:700;color:var(--white);}
+.item-tip{font-size:11px;color:var(--gray-500);margin-top:3px;line-height:1.5;}
+.item-right{text-align:right;}
+.item-amount{
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:16px;font-weight:700;color:var(--gray-100);
+}
+.item-pct{font-size:11px;color:var(--gray-500);margin-top:2px;font-weight:600;}
+
+/* ITEM INPUT */
+.item-input{
+  background:none;border:none;outline:none;
+  color:var(--gray-100);
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:16px;font-weight:700;
+  text-align:right;width:90px;
+  border-bottom:1.5px solid var(--border);
+  padding-bottom:3px;
+  transition:border-color 0.2s;
+}
+.item-input:focus{border-bottom-color:var(--pink);}
+
+/* REMAINING CARD */
+.remaining-card{
+  border-radius:var(--radius-sm);
+  padding:18px 20px;
+  margin-top:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.remaining-card.surplus{
+  background:var(--green-dim);
+  border:1.5px solid var(--green);
+}
+.remaining-card.deficit{
+  background:rgba(255,85,85,0.15);
+  border:1.5px solid #ff5555;
+}
+.remaining-label{font-size:14px;font-weight:700;color:var(--gray-200);}
+.remaining-amount{
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  font-size:20px;font-weight:800;
+}
+.remaining-amount.surplus{color:var(--green);}
+.remaining-amount.deficit{color:#ff5555;}
+
+/* TIP SECTION */
+.tip-section{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:18px 20px;
+  margin-top:20px;
+}
+.tip-title{
+  font-size:13px;color:var(--pink);
+  font-weight:700;margin-bottom:12px;
+}
+.tip-item{
+  font-size:13px;color:var(--gray-300);
+  line-height:1.8;padding-left:4px;
+  font-weight:500;
+}
+
+/* FOOTER */
+.footer-note{
+  text-align:center;
+  font-size:13px;color:var(--gray-400);
+  margin-top:24px;line-height:1.8;
+  padding-bottom:20px;
+  font-weight:500;
+}
+.footer-note span{color:var(--pink);font-weight:700;}
+
+.reset-btn{
+  width:100%;
+  background:transparent;
+  border:1.5px solid var(--border);
+  color:var(--gray-400);
+  border-radius:var(--radius-sm);
+  padding:14px;
+  font-size:14px;font-weight:700;
+  cursor:pointer;
+  font-family:'Paperlogy','Noto Sans KR',sans-serif;
+  margin-top:12px;
+  transition:all 0.2s;
+}
+.reset-btn:hover{
+  border-color:var(--pink);
+  color:var(--pink);
+  background:var(--pink-dim);
+}
+
+.fu{opacity:0;animation:fu 0.5s ease forwards;}
+.fu2{animation-delay:0.1s;}
+.fu3{animation-delay:0.2s;}
+.fu4{animation-delay:0.3s;}
+@keyframes fu{to{opacity:1;}}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <img src="heart.png" alt="donbokee">
+      donbokee
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-character">
+      <img src="channel.png" alt="캐릭터">
+    </div>
+    <div class="hero-eyebrow">BUDGET PLANNER</div>
+    <h1>내 월급,<br><span class="hero-hl">제대로</span> 쓰고 있나요?</h1>
+    <p class="hero-sub">월급을 입력하면 고정비/변동비/저축을<br>자동으로 계산해드려요. 항목도 직접 수정 가능해요.</p>
+    <div class="cta-banner">
+      <p class="cta-text">앞으로 유용한 재테크 정보 받고 싶다면</p>
+      <a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn">
+        <img src="hi.png" alt=""> @donbokee 팔로우
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="input-card">
+      <div class="input-label">나의 월 실수령액</div>
+      <div class="input-row">
+        <input type="number" id="salary" placeholder="250" min="1" inputmode="numeric" />
+        <span class="input-unit">만원</span>
+      </div>
+      <div class="quick-btns">
+        <button class="quick-btn" onclick="setSalary(200)">200만원</button>
+        <button class="quick-btn" onclick="setSalary(250)">250만원</button>
+        <button class="quick-btn" onclick="setSalary(300)">300만원</button>
+        <button class="quick-btn" onclick="setSalary(350)">350만원</button>
+        <button class="quick-btn" onclick="setSalary(400)">400만원</button>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">📊 내 가계부 분석하기</button>
+
+    <div class="results" id="results">
+
+      <!-- 요약 -->
+      <div class="summary-box fu">
+        <div class="summary-title">📊 내 월급 구성</div>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="summary-item-label">월 저축액</div>
+            <div class="summary-item-value pink" id="sum-saving">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-label">저축 비율</div>
+            <div class="summary-item-value green" id="sum-saving-pct">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-label">고정 지출</div>
+            <div class="summary-item-value yellow" id="sum-fixed">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-label">변동 지출</div>
+            <div class="summary-item-value yellow" id="sum-variable">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 차트 -->
+      <div class="chart-wrap fu fu2">
+        <div class="donut-container">
+          <canvas id="donut"></canvas>
+          <div class="donut-center">
+            <div class="donut-center-pct" id="saving-pct-center">-</div>
+            <div class="donut-center-label">저축</div>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#e86c9e"></div>저축</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f1c135"></div>고정 지출</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7ec8c8"></div>변동 지출</div>
+        </div>
+      </div>
+
+      <!-- 고정비 -->
+      <div class="section-label fu fu3">✅ 고정비</div>
+      <div id="fixed-list" class="fu fu3"></div>
+
+      <!-- 변동비 -->
+      <div class="section-label fu fu3">✅ 변동비</div>
+      <div id="variable-list" class="fu fu3"></div>
+
+      <!-- 잔액 -->
+      <div id="remaining-card" class="fu fu4"></div>
+
+      <!-- 꿀팁 -->
+      <div class="tip-section fu fu4">
+        <div class="tip-title">⭐ 절약 꿀팁</div>
+        <div class="tip-item">1. 비상금·경조사비 그달에 안 쓰면 비상금 계좌에 적립</div>
+        <div class="tip-item">2. 통신비는 알뜰폰으로 바꾸면 월 1~2만원 절약</div>
+        <div class="tip-item">3. K패스 이용하면 교통비 2~3만원 환급</div>
+        <div class="tip-item">4. 저축은 월급날 자동이체 설정 필수</div>
+        <div class="tip-item">5. 생활비는 체크카드로 한도 정해두기</div>
+        <div class="tip-item">6. 식비는 장보고 요리, 배달 주 1회 이내</div>
+        <div class="tip-item">7. 부모님과 거주 중이라면 주거비를 저축으로</div>
+      </div>
+
+      <div class="cta-banner" style="padding-bottom:8px;">
+        <p class="cta-text">더 많은 재테크 정보 받고 싶다면</p>
+        <a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn">
+          <img src="hi.png" alt=""> @donbokee 팔로우
+        </a>
+      </div>
+
+      <button class="reset-btn" onclick="reset()">🔄 다시 계산하기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// 기본 항목 정의
+const fixedItems = [
+  { icon: '💰', name: '저축',   defaultPct: 0.48, tip: '월급날 자동이체 필수', category: 'saving' },
+  { icon: '🏠', name: '주거비', defaultPct: 0.20, tip: '부모님과 거주 시 저축으로 전환', category: 'fixed' },
+  { icon: '🔒', name: '보험료', defaultPct: 0.04, tip: '불필요한 보험 정리하면 절약 가능', category: 'fixed' },
+  { icon: '🚨', name: '비상금', defaultPct: 0.04, tip: '안 쓰면 비상금 계좌에 적립', category: 'fixed' },
+  { icon: '🚌', name: '교통비', defaultPct: 0.028, tip: 'K패스 이용 시 2~3만원 환급', category: 'fixed' },
+  { icon: '📱', name: '통신비', defaultPct: 0.012, tip: '알뜰폰으로 바꾸면 1~2만원 절약', category: 'fixed' },
+];
+
+const variableItems = [
+  { icon: '🛒', name: '생활비', defaultPct: 0.16, tip: '체크카드로 한도 정해두기', category: 'variable' },
+  { icon: '🎉', name: '경조사비', defaultPct: 0.04, tip: '안 쓰면 비상금 계좌에 적립', category: 'variable' },
+];
+
+let salary = 0;
+let userValues = {};
+
+function setSalary(v) { document.getElementById('salary').value = v; }
+
+function fmt(만원) {
+  if (만원 >= 10000) return (만원 / 10000).toFixed(1) + '억';
+  return Math.round(만원).toLocaleString() + '만원';
+}
+
+function calculate() {
+  salary = parseFloat(document.getElementById('salary').value);
+  if (!salary || salary <= 0) { alert('월급을 입력해주세요!'); return; }
+  userValues = {};
+  render();
+}
+
+function render() {
+  const allItems = [...fixedItems, ...variableItems];
+
+  // 각 항목 금액 계산
+  allItems.forEach(item => {
+    if (userValues[item.name] === undefined) {
+      userValues[item.name] = Math.round(salary * item.defaultPct);
+    }
+  });
+
+  // 저축
+  const saving = userValues['저축'] || 0;
+  const fixedTotal = fixedItems.filter(i => i.category === 'fixed').reduce((s, i) => s + (userValues[i.name] || 0), 0);
+  const variableTotal = variableItems.reduce((s, i) => s + (userValues[i.name] || 0), 0);
+  const totalSpend = saving + fixedTotal + variableTotal;
+  const remaining = salary - totalSpend;
+  const savingPct = Math.round((saving / salary) * 100);
+
+  // 요약
+  document.getElementById('sum-saving').textContent = fmt(saving);
+  document.getElementById('sum-saving-pct').textContent = savingPct + '%';
+  document.getElementById('sum-fixed').textContent = fmt(fixedTotal);
+  document.getElementById('sum-variable').textContent = fmt(variableTotal);
+  document.getElementById('saving-pct-center').textContent = savingPct + '%';
+
+  // 도넛 차트
+  drawDonut(saving, fixedTotal, variableTotal);
+
+  // 고정비 렌더
+  const fixedList = document.getElementById('fixed-list');
+  fixedList.innerHTML = '';
+  fixedItems.forEach(item => {
+    fixedList.appendChild(makeItemCard(item));
+  });
+
+  // 변동비 렌더
+  const varList = document.getElementById('variable-list');
+  varList.innerHTML = '';
+  variableItems.forEach(item => {
+    varList.appendChild(makeItemCard(item));
+  });
+
+  // 잔액
+  const rc = document.getElementById('remaining-card');
+  if (remaining >= 0) {
+    rc.className = 'remaining-card surplus';
+    rc.innerHTML = `<div class="remaining-label">💚 남은 금액</div><div class="remaining-amount surplus">${fmt(remaining)}</div>`;
+  } else {
+    rc.className = 'remaining-card deficit';
+    rc.innerHTML = `<div class="remaining-label">⚠️ 초과 금액</div><div class="remaining-amount deficit">-${fmt(Math.abs(remaining))}</div>`;
+  }
+
+  document.getElementById('results').classList.add('visible');
+  setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function makeItemCard(item) {
+  const val = userValues[item.name] || 0;
+  const pct = Math.round((val / salary) * 100);
+  const div = document.createElement('div');
+  div.className = 'item-card';
+  div.innerHTML = `
+    <div class="item-left">
+      <div class="item-icon">${item.icon}</div>
+      <div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-tip">${item.tip}</div>
+      </div>
+    </div>
+    <div class="item-right">
+      <input class="item-input" type="number" value="${val}" data-name="${item.name}" onchange="updateItem(this)" inputmode="numeric" />
+      <div class="item-pct">${pct}%</div>
+    </div>`;
+  return div;
+}
+
+function updateItem(input) {
+  const name = input.dataset.name;
+  const val = parseFloat(input.value) || 0;
+  userValues[name] = val;
+  render();
+}
+
+let donutChart = null;
+function drawDonut(saving, fixed, variable) {
+  const canvas = document.getElementById('donut');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 260; canvas.height = 260;
+
+  const total = saving + fixed + variable || 1;
+  const segments = [
+    { value: saving,   color: '#e86c9e' },
+    { value: fixed,    color: '#f1c135' },
+    { value: variable, color: '#7ec8c8' },
+  ];
+
+  ctx.clearRect(0, 0, 260, 260);
+  let start = -Math.PI / 2;
+  const cx = 130, cy = 130, r = 110, inner = 70;
+
+  segments.forEach(seg => {
+    const angle = (seg.value / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, start, start + angle);
+    ctx.closePath();
+    ctx.fillStyle = seg.color;
+    ctx.fill();
+    start += angle;
+  });
+
+  // 안쪽 원 (도넛 구멍)
+  ctx.beginPath();
+  ctx.arc(cx, cy, inner, 0, Math.PI * 2);
+  ctx.fillStyle = '#1e1e2c';
+  ctx.fill();
+}
+
+function reset() {
+  document.getElementById('salary').value = '';
+  document.getElementById('results').classList.remove('visible');
+  salary = 0;
+  userValues = {};
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('salary').addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
+</body>
+</html>
