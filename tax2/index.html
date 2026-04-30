@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ISA / 연금저축 / IRP 한눈에 보기 | @donbokee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg-deep:#111118;
+  --bg-card:#1e1e2c;
+  --bg-card-hover:#282838;
+  --bg-elevated:#2c2c3e;
+  --pink:#e86c9e;
+  --pink-dark:#d4507f;
+  --pink-dim:rgba(232,108,158,0.15);
+  --pink-glow:rgba(232,108,158,0.25);
+  --white:#ffffff;
+  --gray-100:#f2f2f8;
+  --gray-200:#d4d4e0;
+  --gray-300:#aaaabc;
+  --gray-400:#888898;
+  --gray-500:#6a6a7c;
+  --border:#333345;
+  --border-light:#3d3d50;
+  --shadow:0 4px 20px rgba(0,0,0,0.3);
+  --shadow-pink:0 4px 16px rgba(232,108,158,0.25);
+  --radius:20px;
+  --radius-sm:14px;
+
+  --isa:#4ade80;
+  --isa-dim:rgba(74,222,128,0.13);
+  --pension:#60a5fa;
+  --pension-dim:rgba(96,165,250,0.13);
+  --irp:#a884f6;
+  --irp-dim:rgba(168,132,246,0.13);
+}
+body{
+  font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg-deep);color:var(--gray-100);
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+.container{max-width:480px;margin:0 auto;padding:0 20px;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(17,17,24,0.9);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:12px 20px;
+}
+.nav-inner{
+  max-width:480px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.nav-logo{font-size:15px;font-weight:800;color:var(--pink);display:flex;align-items:center;gap:8px;}
+.nav-logo img{width:36px;height:36px;border-radius:50%;object-fit:contain;}
+.nav-btns{display:flex;gap:8px;}
+.nav-btn{
+  padding:10px 20px;border-radius:12px;font-size:15px;font-weight:700;
+  border:none;cursor:pointer;font-family:inherit;transition:all 0.2s;
+}
+.nav-btn.outline{background:var(--bg-elevated);color:var(--gray-100);border:1.5px solid var(--gray-500);}
+.nav-btn.outline:hover{border-color:var(--pink);color:var(--pink);}
+.nav-btn.fill{background:var(--pink);color:var(--white);box-shadow:0 2px 12px rgba(232,108,158,0.3);}
+.nav-btn.fill:hover{background:var(--pink-dark);}
+
+/* HERO */
+.hero{text-align:center;padding:44px 0 32px;}
+.hero-images{display:flex;justify-content:center;gap:12px;margin-bottom:22px;}
+.hero-img-slot{
+  width:100px;height:100px;border-radius:18px;
+  background:var(--bg-card);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.hero-img-slot img{width:100%;height:100%;object-fit:cover;}
+.hero-img-slot.isa{border-color:var(--isa);background:var(--isa-dim);}
+.hero-img-slot.pension{border-color:var(--pension);background:var(--pension-dim);}
+.hero-img-slot.irp{border-color:var(--irp);background:var(--irp-dim);}
+.hero-img-label{font-size:13px;font-weight:700;margin-top:8px;}
+.hero-img-label.isa{color:var(--isa);}
+.hero-img-label.pension{color:var(--pension);}
+.hero-img-label.irp{color:var(--irp);}
+.hero-img-wrap{text-align:center;}
+.hero-character{width:110px;height:110px;margin:0 auto 18px;}
+.hero-character img{width:100%;height:100%;object-fit:contain;}
+.hero h1{font-size:32px;font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1.25;}
+.hero-hl{color:var(--pink);}
+.hero-sub{font-size:16px;color:var(--gray-300);margin-top:10px;font-weight:500;}
+
+/* CTA */
+.cta-banner{text-align:center;padding:20px 0;}
+.cta-text{font-size:14px;color:var(--gray-400);font-weight:500;margin-bottom:10px;}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;color:var(--pink);
+  padding:11px 22px;border-radius:12px;
+  font-size:14px;font-weight:700;text-decoration:none;
+  border:1.5px solid var(--pink);cursor:pointer;font-family:inherit;
+  transition:all 0.2s;
+}
+.cta-btn:hover{background:var(--pink);color:var(--white);box-shadow:var(--shadow-pink);}
+.cta-btn:active{transform:scale(0.97);}
+.cta-btn img{width:28px;height:28px;border-radius:50%;object-fit:contain;}
+
+/* DIVIDER */
+.divider{height:8px;background:var(--bg-elevated);margin:12px -20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+
+/* SECTION */
+.section{padding:40px 0 24px;}
+.section-title{font-size:26px;font-weight:900;color:var(--white);letter-spacing:-0.5px;margin-bottom:6px;}
+.section-sub{font-size:14px;color:var(--gray-400);margin-bottom:24px;font-weight:500;}
+
+/* COMPARE TABLE */
+.compare-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius);border:1px solid var(--border);}
+.compare-table{width:100%;border-collapse:collapse;min-width:340px;}
+.compare-table thead tr{background:var(--bg-elevated);}
+.compare-table th{padding:14px 10px;font-size:13px;font-weight:700;text-align:center;border-bottom:1px solid var(--border);}
+.compare-table th:first-child{text-align:left;padding-left:16px;color:var(--gray-300);font-size:12px;width:90px;}
+.th-isa{color:var(--isa);}
+.th-pension{color:var(--pension);}
+.th-irp{color:var(--irp);}
+
+.compare-table tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;}
+.compare-table tbody tr:last-child{border-bottom:none;}
+.compare-table tbody tr:hover{background:var(--bg-card-hover);}
+.compare-table td{padding:14px 10px;font-size:13px;text-align:center;color:var(--gray-200);line-height:1.5;vertical-align:middle;}
+.compare-table td:first-child{text-align:left;padding-left:16px;color:var(--gray-400);font-size:12px;font-weight:600;}
+
+.badge{display:inline-block;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;}
+.badge.green{background:var(--isa-dim);color:var(--isa);}
+.badge.blue{background:var(--pension-dim);color:var(--pension);}
+.badge.purple{background:var(--irp-dim);color:var(--irp);}
+.badge.none{background:rgba(136,136,152,0.12);color:var(--gray-400);}
+.badge.warn{background:rgba(245,158,11,0.12);color:#f5c862;}
+
+.rank-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:8px;font-size:13px;font-weight:800;
+}
+.rank-1{background:var(--isa-dim);color:var(--isa);}
+.rank-2{background:var(--pension-dim);color:var(--pension);}
+.rank-3{background:var(--irp-dim);color:var(--irp);}
+
+/* CALCULATOR */
+.calc-section{padding:40px 0 24px;}
+.calc-tabs{
+  display:flex;background:var(--bg-card);
+  border-radius:var(--radius-sm);padding:4px;margin-bottom:24px;
+  border:1px solid var(--border);
+}
+.calc-tab{
+  flex:1;padding:12px;text-align:center;font-size:15px;font-weight:600;
+  border-radius:11px;cursor:pointer;transition:all 0.2s;color:var(--gray-400);
+}
+.calc-tab.active{background:var(--bg-elevated);color:var(--white);}
+
+.calc-form{
+  background:var(--bg-card);border-radius:var(--radius);
+  border:1px solid var(--border);padding:24px;
+}
+.calc-field{margin-bottom:24px;}
+.calc-label{font-size:16px;font-weight:700;color:var(--white);margin-bottom:12px;display:block;}
+
+.calc-input-wrap{
+  display:flex;align-items:center;
+  background:var(--bg-elevated);border:1px solid var(--border);
+  border-radius:var(--radius-sm);overflow:hidden;transition:all 0.2s;
+}
+.calc-input-wrap:focus-within{border-color:var(--pink);box-shadow:0 0 0 3px var(--pink-dim);}
+.calc-input{
+  flex:1;border:none;padding:16px 18px;font-size:24px;font-weight:800;
+  font-family:inherit;color:var(--white);outline:none;background:transparent;min-width:0;
+}
+.calc-input::placeholder{color:var(--gray-500);font-weight:500;}
+.calc-input-unit{padding:16px 18px 16px 0;font-size:16px;font-weight:600;color:var(--gray-400);}
+
+.calc-presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.calc-preset{
+  padding:9px 16px;border-radius:10px;font-size:14px;font-weight:600;
+  background:var(--bg-elevated);color:var(--gray-300);
+  border:1px solid var(--border);cursor:pointer;transition:all 0.2s;
+}
+.calc-preset:hover,.calc-preset.active{background:var(--pink);color:var(--white);border-color:var(--pink);}
+
+/* 계좌 선택 */
+.acct-select{display:flex;flex-direction:column;gap:8px;}
+.acct-option{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;border-radius:var(--radius-sm);
+  background:var(--bg-elevated);border:1px solid var(--border);
+  cursor:pointer;transition:all 0.2s;
+}
+.acct-option.selected.isa{border-color:var(--isa);background:var(--isa-dim);box-shadow:0 0 0 1px var(--isa);}
+.acct-option.selected.pension{border-color:var(--pension);background:var(--pension-dim);box-shadow:0 0 0 1px var(--pension);}
+.acct-option.selected.irp{border-color:var(--irp);background:var(--irp-dim);box-shadow:0 0 0 1px var(--irp);}
+.acct-option-name{font-size:15px;font-weight:600;color:var(--white);}
+.acct-option-desc{font-size:12px;color:var(--gray-400);margin-top:2px;}
+.acct-option-badge{font-size:13px;font-weight:800;}
+.acct-option-badge.isa{color:var(--isa);}
+.acct-option-badge.pension{color:var(--pension);}
+.acct-option-badge.irp{color:var(--irp);}
+
+/* 소득 선택 */
+.income-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.income-tab{
+  padding:10px 18px;border-radius:10px;font-size:14px;font-weight:600;
+  background:var(--bg-elevated);color:var(--gray-300);
+  border:1px solid var(--border);cursor:pointer;transition:all 0.2s;
+}
+.income-tab.active{background:var(--pink);color:var(--white);border-color:var(--pink);}
+
+.calc-btn{
+  width:100%;padding:18px;
+  background:var(--pink);color:var(--white);
+  border:none;border-radius:var(--radius-sm);
+  font-size:17px;font-weight:700;font-family:inherit;
+  cursor:pointer;transition:all 0.2s;margin-top:4px;
+  box-shadow:var(--shadow-pink);
+}
+.calc-btn:hover{background:var(--pink-dark);transform:translateY(-1px);}
+.calc-btn:active{transform:scale(0.97);}
+
+/* RESULT */
+.calc-result{
+  display:none;margin-top:24px;border-radius:var(--radius);
+  overflow:hidden;border:1px solid var(--pink);
+  box-shadow:0 0 0 1px var(--pink),0 8px 32px rgba(232,108,158,0.2);
+}
+.calc-result.show{display:block;animation:popUp 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popUp{from{opacity:0;transform:translateY(12px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.calc-result-header{
+  background:linear-gradient(135deg,var(--pink),var(--pink-dark));
+  padding:32px 24px;text-align:center;color:var(--white);position:relative;overflow:hidden;
+}
+.calc-result-header::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:120px;height:120px;background:rgba(255,255,255,0.08);border-radius:50%;
+}
+.calc-result-header::after{
+  content:'';position:absolute;bottom:-20px;left:-20px;
+  width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:50%;
+}
+.calc-result-label{font-size:14px;opacity:0.85;margin-bottom:8px;font-weight:500;}
+.calc-result-amount{font-size:42px;font-weight:900;letter-spacing:-1.5px;position:relative;z-index:1;}
+.calc-result-sub{font-size:13px;opacity:0.7;margin-top:8px;}
+
+.calc-result-body{padding:20px 24px;background:var(--bg-card);}
+.calc-result-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--border);
+}
+.calc-result-row:last-child{border-bottom:none;}
+.calc-result-row-label{font-size:15px;color:var(--gray-400);}
+.calc-result-row-value{font-size:17px;font-weight:700;color:var(--white);}
+.calc-result-row-value.profit{color:var(--pink);}
+
+/* 납입 한도 탭 */
+.limit-cards{display:flex;flex-direction:column;gap:12px;}
+.limit-card{
+  background:var(--bg-card);border-radius:var(--radius);
+  border:1px solid var(--border);padding:20px;
+}
+.limit-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.limit-dot{width:10px;height:10px;border-radius:50%;}
+.limit-dot.isa{background:var(--isa);}
+.limit-dot.pension{background:var(--pension);}
+.limit-dot.irp{background:var(--irp);}
+.limit-card-name{font-size:17px;font-weight:700;color:var(--white);}
+.limit-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;}
+.limit-row:last-child{border-bottom:none;}
+.limit-row-label{color:var(--gray-400);}
+.limit-row-value{font-weight:700;color:var(--gray-100);}
+.limit-row-value.isa{color:var(--isa);}
+.limit-row-value.pension{color:var(--pension);}
+.limit-row-value.irp{color:var(--irp);}
+
+/* ISA 탭 */
+.isa-types{display:flex;flex-direction:column;gap:12px;}
+.isa-type-card{
+  background:var(--bg-card);border-radius:var(--radius);
+  border:1px solid var(--border);padding:20px;
+}
+.isa-type-title{font-size:16px;font-weight:700;color:var(--isa);margin-bottom:12px;}
+.isa-type-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.isa-type-row:last-child{border-bottom:none;}
+.isa-type-label{color:var(--gray-400);}
+.isa-type-value{font-weight:600;color:var(--gray-100);}
+
+/* FOOTER */
+.footer{text-align:center;padding:28px 0 44px;}
+.footer-notice{
+  font-size:13px;color:var(--gray-400);line-height:1.75;
+  margin-bottom:20px;background:var(--bg-card);
+  border-radius:var(--radius-sm);padding:20px;
+  border:1px solid var(--border);text-align:left;
+}
+.footer-notice strong{color:var(--gray-200);font-weight:700;}
+.footer-date{font-size:12px;color:var(--gray-500);margin-top:12px;}
+
+.warn-box{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:12px 16px;margin-bottom:24px;font-size:13px;color:#f5c862;line-height:1.6;font-weight:500;}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><img src="img/heart.png" alt="">donbokee</div>
+    <div class="nav-btns">
+      <button class="nav-btn outline" onclick="scrollTo_('compare')">비교표</button>
+      <button class="nav-btn fill" onclick="scrollTo_('calc')">계산기</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-character"><img src="img/channel.png" alt="donbokee"></div>
+    <h1>ISA / 연금저축 / IRP<br><span class="hero-hl">한눈에 보기</span></h1>
+    <p class="hero-sub">제대로 알아야 제대로 절세할 수 있어</p>
+  </div>
+
+  <div class="cta-banner">
+    <p class="cta-text">절세 정보 더 받고 싶다면</p>
+    <a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn">
+      <img src="img/hi.png" alt=""> @donbokee 팔로우
+    </a>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- COMPARE TABLE -->
+  <div class="section" id="compare">
+    <h2 class="section-title">비교표</h2>
+    <p class="section-sub">세 계좌, 뭐가 다른지 한눈에 봐</p>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th class="th-isa">ISA</th>
+            <th class="th-pension">연금저축</th>
+            <th class="th-irp">IRP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>주요 목적</td>
+            <td>목돈</td>
+            <td colspan="2" style="color:var(--gray-200)">노후 + 세액공제</td>
+          </tr>
+          <tr>
+            <td>추천 순서</td>
+            <td><span class="rank-badge rank-1">1</span></td>
+            <td><span class="rank-badge rank-2">2</span></td>
+            <td><span class="rank-badge rank-3">3</span></td>
+          </tr>
+          <tr>
+            <td>의무 가입 기간</td>
+            <td><span class="badge warn">3년</span></td>
+            <td><span class="badge none">없음</span></td>
+            <td><span class="badge none">없음</span></td>
+          </tr>
+          <tr>
+            <td>세액공제 한도</td>
+            <td><span class="badge none">없음</span></td>
+            <td><span class="badge blue">연 600만원</span></td>
+            <td><span class="badge purple">연 900만원*</span></td>
+          </tr>
+          <tr>
+            <td>세액공제 환급액</td>
+            <td><span class="badge none">없음</span></td>
+            <td style="font-size:12px">최대 99만원</td>
+            <td style="font-size:12px">최대 148.5만원*</td>
+          </tr>
+          <tr>
+            <td>비과세</td>
+            <td><span class="badge green">200만원**</span></td>
+            <td><span class="badge none">없음</span></td>
+            <td><span class="badge none">없음</span></td>
+          </tr>
+          <tr>
+            <td>납입 한도</td>
+            <td style="font-size:12px">연 2,000만원</td>
+            <td colspan="2" style="font-size:12px;color:var(--gray-200)">합산 연 1,800만원</td>
+          </tr>
+          <tr>
+            <td>중도 인출</td>
+            <td><span class="badge green">3년 후 자유</span></td>
+            <td><span class="badge warn">가능(세금↑)</span></td>
+            <td><span class="badge none">불가</span></td>
+          </tr>
+          <tr>
+            <td>주식 직접 투자</td>
+            <td style="font-size:12px">가능<br>(해외 불가)</td>
+            <td><span class="badge none">불가</span></td>
+            <td><span class="badge none">불가</span></td>
+          </tr>
+          <tr>
+            <td>운용 상품</td>
+            <td style="font-size:11px">ETF·펀드·RP·주식</td>
+            <td style="font-size:11px">국내 ETF·펀드</td>
+            <td style="font-size:11px">ETF·펀드·RP</td>
+          </tr>
+          <tr>
+            <td>수령 시기</td>
+            <td style="font-size:12px">3년 후 언제든지</td>
+            <td colspan="2" style="font-size:12px;color:var(--gray-200)">만 55세 이후</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:var(--gray-500);line-height:1.8;padding:0 4px;">
+      * 연금저축+IRP 합산 최대 900만원 / 환급액 16.5% 기준 (총급여 5,500만원 이하)<br>
+      ** 서민형·농어민형 ISA는 비과세 한도 400만원
+    </div>
+  </div>
+
+  <div class="cta-banner">
+    <p class="cta-text">함께 공부하고 부자 되고 싶다면</p>
+    <a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn">
+      <img src="img/hi.png" alt=""> @donbokee 팔로우
+    </a>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CALCULATOR -->
+  <div class="calc-section" id="calc">
+    <h2 class="section-title">세액공제 계산기</h2>
+    <p class="section-sub">내 연봉에 맞는 환급액, 직접 확인해봐</p>
+
+    <div class="warn-box">⚠️ 세액공제율은 총급여 기준이며, 종합소득자는 종합소득금액 기준으로 다를 수 있어요.</div>
+
+    <div class="calc-tabs">
+      <div class="calc-tab active" data-mode="refund">세액공제 계산</div>
+      <div class="calc-tab" data-mode="limit">납입 한도 보기</div>
+      <div class="calc-tab" data-mode="isa">ISA 유형 비교</div>
+    </div>
+
+    <!-- 세액공제 계산 -->
+    <div id="refundPanel">
+      <div class="calc-form">
+        <div class="calc-field">
+          <label class="calc-label">어떤 계좌에 넣을까?</label>
+          <div class="acct-select" id="acctSelect">
+            <div class="acct-option pension selected pension" data-id="pension" onclick="selectAcct('pension')">
+              <div>
+                <div class="acct-option-name">연금저축</div>
+                <div class="acct-option-desc">세액공제 한도 연 600만원</div>
+              </div>
+              <div class="acct-option-badge pension">연 600만원</div>
+            </div>
+            <div class="acct-option irp" data-id="irp" onclick="selectAcct('irp')">
+              <div>
+                <div class="acct-option-name">IRP (연금저축+IRP 합산)</div>
+                <div class="acct-option-desc">세액공제 한도 연 900만원</div>
+              </div>
+              <div class="acct-option-badge irp">연 900만원</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label">총급여가 얼마야?</label>
+          <div class="income-tabs" id="incomeTabs">
+            <button class="income-tab" data-val="low" onclick="selectIncome('low',this)">5,500만원 이하</button>
+            <button class="income-tab active" data-val="high" onclick="selectIncome('high',this)">5,500만원 초과</button>
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label">연간 납입액은?</label>
+          <div class="calc-input-wrap">
+            <input type="number" class="calc-input" id="depositAmount" placeholder="600" inputmode="numeric">
+            <span class="calc-input-unit">만원</span>
+          </div>
+          <div class="calc-presets" id="depositPresets">
+            <button class="calc-preset" data-val="200" onclick="setDeposit(200,this)">200만원</button>
+            <button class="calc-preset" data-val="400" onclick="setDeposit(400,this)">400만원</button>
+            <button class="calc-preset" data-val="600" onclick="setDeposit(600,this)">600만원</button>
+            <button class="calc-preset" data-val="900" onclick="setDeposit(900,this)">900만원</button>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcRefund()">환급액 계산하기 →</button>
+      </div>
+
+      <div class="calc-result" id="calcResult">
+        <div class="calc-result-header">
+          <div class="calc-result-label" id="resultLabel"></div>
+          <div class="calc-result-amount" id="resultAmount"></div>
+          <div class="calc-result-sub" id="resultSub"></div>
+        </div>
+        <div class="calc-result-body" id="resultBody"></div>
+      </div>
+    </div>
+
+    <!-- 납입 한도 보기 -->
+    <div id="limitPanel" style="display:none;">
+      <div class="limit-cards">
+        <div class="limit-card">
+          <div class="limit-card-header">
+            <div class="limit-dot isa"></div>
+            <div class="limit-card-name">ISA</div>
+          </div>
+          <div class="limit-row"><span class="limit-row-label">연간 납입 한도</span><span class="limit-row-value isa">2,000만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">의무 가입 기간</span><span class="limit-row-value">3년</span></div>
+          <div class="limit-row"><span class="limit-row-label">비과세 한도 (일반형)</span><span class="limit-row-value">200만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">비과세 한도 (서민·농어민형)</span><span class="limit-row-value">400만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">세액공제</span><span class="limit-row-value" style="color:var(--gray-400)">없음</span></div>
+        </div>
+        <div class="limit-card">
+          <div class="limit-card-header">
+            <div class="limit-dot pension"></div>
+            <div class="limit-card-name">연금저축</div>
+          </div>
+          <div class="limit-row"><span class="limit-row-label">연간 납입 한도</span><span class="limit-row-value pension">1,800만원 (IRP 합산)</span></div>
+          <div class="limit-row"><span class="limit-row-label">세액공제 한도</span><span class="limit-row-value pension">600만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">최대 환급 (16.5%)</span><span class="limit-row-value">99만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">최대 환급 (13.2%)</span><span class="limit-row-value">79.2만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">수령 가능 시기</span><span class="limit-row-value">만 55세 이후</span></div>
+        </div>
+        <div class="limit-card">
+          <div class="limit-card-header">
+            <div class="limit-dot irp"></div>
+            <div class="limit-card-name">IRP</div>
+          </div>
+          <div class="limit-row"><span class="limit-row-label">연간 납입 한도</span><span class="limit-row-value irp">1,800만원 (연금저축 합산)</span></div>
+          <div class="limit-row"><span class="limit-row-label">세액공제 한도 (합산)</span><span class="limit-row-value irp">900만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">최대 환급 (16.5%)</span><span class="limit-row-value">148.5만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">최대 환급 (13.2%)</span><span class="limit-row-value">118.8만원</span></div>
+          <div class="limit-row"><span class="limit-row-label">수령 가능 시기</span><span class="limit-row-value">만 55세 이후</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ISA 유형 비교 -->
+    <div id="isaPanel" style="display:none;">
+      <div class="isa-types">
+        <div class="isa-type-card">
+          <div class="isa-type-title">📗 일반형 ISA</div>
+          <div class="isa-type-row"><span class="isa-type-label">가입 자격</span><span class="isa-type-value">근로·사업소득자 누구나</span></div>
+          <div class="isa-type-row"><span class="isa-type-label">비과세 한도</span><span class="isa-type-value">200만원</span></div>
+          <div class="isa-type-row"><span class="isa-type-label">초과분 세율</span><span class="isa-type-value">9.9% 분리과세</span></div>
+        </div>
+        <div class="isa-type-card">
+          <div class="isa-type-title">📘 서민형 ISA</div>
+          <div class="isa-type-row"><span class="isa-type-label">가입 자격</span><span class="isa-type-value">총급여 5,000만원 이하<br>또는 종합소득 3,800만원 이하</span></div>
+          <div class="isa-type-row"><span class="isa-type-label">비과세 한도</span><span class="isa-type-value" style="color:var(--isa)">400만원 (2배!)</span></div>
+          <div class="isa-type-row"><span class="isa-type-label">초과분 세율</span><span class="isa-type-value">9.9% 분리과세</span></div>
+        </div>
+        <div class="isa-type-card">
+          <div class="isa-type-title">📙 농어민형 ISA</div>
+          <div class="isa-type-row"><span class="isa-type-label">가입 자격</span><span class="isa-type-value">농어업인 확인서 필요</span></div>
+          <div class="isa-type-row"><span class="isa-type-label">비과세 한도</span><span class="isa-type-value" style="color:var(--isa)">400만원</span></div>
+          <div class="isa-type-row"><span class="isa-type-label">초과분 세율</span><span class="isa-type-value">9.9% 분리과세</span></div>
+        </div>
+        <div style="padding:14px 4px;font-size:12px;color:var(--gray-500);line-height:1.8;">
+          ※ 금융소득종합과세자(연 2,000만원 초과)는 ISA 가입 불가<br>
+          ※ 의무 가입 기간 3년 미충족 시 세제 혜택 환수
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-banner">
+    <p class="cta-text">앞으로 유용한 재테크 정보 받고싶다면</p>
+    <a href="https://www.instagram.com/donbokee/" target="_blank" class="cta-btn">
+      <img src="img/hi.png" alt=""> @donbokee 팔로우
+    </a>
+  </div>
+
+  <div class="footer">
+    <div class="footer-notice">
+      <strong>⚠️ 투자 유의사항</strong><br><br>
+      본 자료는 정보 제공 목적이며, 투자를 권유하거나 추천하는 것이 아닙니다. 세액공제 금액은 개인 소득·납입 조건에 따라 달라질 수 있으며, 정확한 내용은 금융기관 또는 세무사에게 확인하세요.
+      <div class="footer-date">2025년 기준 세법 적용</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let selectedAcct = 'pension';
+let selectedIncome = 'high'; // 'low'=16.5%, 'high'=13.2%
+
+function selectAcct(id) {
+  selectedAcct = id;
+  document.querySelectorAll('.acct-option').forEach(el => {
+    el.classList.remove('selected', 'isa', 'pension', 'irp');
+    el.classList.remove('selected');
+  });
+  const el = document.querySelector(`.acct-option[data-id="${id}"]`);
+  el.classList.add('selected', id);
+  document.getElementById('calcResult').classList.remove('show');
+}
+
+function selectIncome(val, btn) {
+  selectedIncome = val;
+  document.querySelectorAll('.income-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('calcResult').classList.remove('show');
+}
+
+function setDeposit(val, btn) {
+  document.getElementById('depositAmount').value = val;
+  document.querySelectorAll('#depositPresets .calc-preset').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// calc tabs
+document.querySelectorAll('.calc-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const mode = tab.dataset.mode;
+    document.getElementById('refundPanel').style.display = mode === 'refund' ? 'block' : 'none';
+    document.getElementById('limitPanel').style.display = mode === 'limit' ? 'block' : 'none';
+    document.getElementById('isaPanel').style.display = mode === 'isa' ? 'block' : 'none';
+  });
+});
+
+function calcRefund() {
+  const raw = parseInt(document.getElementById('depositAmount').value) || 0;
+  if (raw <= 0) { alert('납입액을 입력해줘!'); return; }
+
+  const rate = selectedIncome === 'low' ? 0.165 : 0.132;
+  const rateLabel = selectedIncome === 'low' ? '16.5%' : '13.2%';
+
+  let cap, acctName;
+  if (selectedAcct === 'pension') { cap = 600; acctName = '연금저축'; }
+  else { cap = 900; acctName = 'IRP (연금저축+IRP 합산)'; }
+
+  const applied = Math.min(raw, cap);
+  const refund = Math.round(applied * 10000 * rate);
+  const maxRefund = Math.round(cap * 10000 * rate);
+
+  const res = document.getElementById('calcResult');
+  res.classList.add('show');
+  document.getElementById('resultLabel').textContent = '예상 세액공제 환급액';
+  document.getElementById('resultAmount').textContent = fmt(refund);
+  document.getElementById('resultSub').textContent = `${acctName} · 세액공제율 ${rateLabel}`;
+  document.getElementById('resultBody').innerHTML = `
+    <div class="calc-result-row"><span class="calc-result-row-label">실제 납입액</span><span class="calc-result-row-value">${fmt(raw * 10000)}</span></div>
+    <div class="calc-result-row"><span class="calc-result-row-label">세액공제 적용 금액</span><span class="calc-result-row-value">${fmt(applied * 10000)}</span></div>
+    <div class="calc-result-row"><span class="calc-result-row-label">세액공제율</span><span class="calc-result-row-value">${rateLabel}</span></div>
+    <div class="calc-result-row"><span class="calc-result-row-label">예상 환급액</span><span class="calc-result-row-value profit">${fmt(refund)}</span></div>
+    <div class="calc-result-row"><span class="calc-result-row-label">한도 꽉 채우면</span><span class="calc-result-row-value profit">${fmt(maxRefund)} (${cap}만원 납입 시)</span></div>
+    ${raw > cap ? `<div class="calc-result-row" style="color:var(--gray-400);font-size:13px;">※ 납입액 ${fmt(raw*10000)} 중 ${fmt(cap*10000)}까지만 공제 적용</div>` : ''}
+  `;
+  res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function fmt(n) {
+  if (n >= 1e8) {
+    const u = Math.floor(n / 1e8), w = Math.floor((n % 1e8) / 1e4);
+    return w > 0 ? `${u}억 ${w.toLocaleString()}만원` : `${u}억원`;
+  }
+  if (n >= 1e4) return `${Math.floor(n / 1e4).toLocaleString()}만원`;
+  return `${Math.floor(n).toLocaleString()}원`;
+}
+
+function scrollTo_(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+</script>
+</body>
+</html>
